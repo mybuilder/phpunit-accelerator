@@ -1,0 +1,24 @@
+{
+    "name": "mybuilder/phpunit-accelerator",
+    "description": "PHPUnit accelerator",
+    "keywords": ["phpunit", "accelerator", "memory", "property", "free", "fast"],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Keyvan Akbary",
+            "email": "kiwwito@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "phpunit/phpunit": ">=3.7"
+    },
+    "autoload": {
+        "psr-4": { "MyBuilder\\PhpunitAccelerator\\": "" },
+        "files": ["Tests/PHPUnit_Fake.php"]
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
