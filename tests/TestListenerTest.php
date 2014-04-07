@@ -1,13 +1,6 @@
 <?php
 
-namespace PhpunitAccelerator\Tests;
-
 use MyBuilder\PhpunitAccelerator\TestListener;
-
-class DummyTest extends \PHPUnit_Fake
-{
-    public $property = 1;
-}
 
 class TestListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,4 +37,14 @@ class TestListenerTest extends \PHPUnit_Framework_TestCase
     {
         $this->listener->endTest($this->dummyTest, 0);
     }
+}
+
+class PHPUnit_Fake extends \PHPUnit_Framework_TestCase
+{
+    public $phpUnitProperty = 1;
+}
+
+class DummyTest extends \PHPUnit_Fake
+{
+    public $property = 1;
 }

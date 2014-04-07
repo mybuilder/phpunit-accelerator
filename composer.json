@@ -15,8 +15,7 @@
         "phpunit/phpunit": ">=3.7"
     },
     "autoload": {
-        "psr-4": { "MyBuilder\\PhpunitAccelerator\\": "" },
-        "files": ["Tests/PHPUnit_Fake.php"]
+        "psr-4": { "MyBuilder\\PhpunitAccelerator\\": "src" }
     },
     "config": {
         "bin-dir": "bin"
