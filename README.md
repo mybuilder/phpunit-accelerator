@@ -9,7 +9,7 @@ Setup and Configuration
 Add the following to your `composer.json` file
 ```json
 {
-    "require": {
+    "require-dev": {
         "mybuilder/phpunit-accelerator": "~1.0"
     }
 }
