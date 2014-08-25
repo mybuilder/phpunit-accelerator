@@ -26,7 +26,7 @@ Just add to your `phpunit.xml` configuration
 ```xml
 <phpunit>
     <listeners>
-        <listener class="\MyBuilder\PhpunitAccelerator\TestListener"></listener>
+        <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
     </listeners>
 </phpunit>
 ```
