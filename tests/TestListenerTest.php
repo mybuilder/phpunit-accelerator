@@ -7,10 +7,10 @@ class TestListenerTest extends \PHPUnit_Framework_TestCase
     private $listener;
     private $dummyTest;
 
-    public function setUp()
+    protected function setUp()
     {
-        $this->listener = new TestListener;
-        $this->dummyTest = new DummyTest;
+        $this->listener = new TestListener();
+        $this->dummyTest = new DummyTest();
     }
 
     /**
