@@ -6,6 +6,13 @@ class TestListener implements \PHPUnit_Framework_TestListener
 {
     const PHPUNIT_PROPERTY_PREFIX = 'PHPUnit_';
 
+    private $filterRegisterShutdownFunction;
+
+    public function __construct($filterRegisterShutdownFunction = false)
+    {
+        $this->filterRegisterShutdownFunction = $filterRegisterShutdownFunction;
+    }
+
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
         $this->safelyFreeProperties($test);
@@ -24,6 +31,10 @@ class TestListener implements \PHPUnit_Framework_TestListener
     {
         $reflection = new \ReflectionObject($test);
 
+        if ($this->filterRegisterShutdownFunction === true && $this->registersShutdownFunction($reflection)) {
+            return array();
+        }
+
         return $reflection->getProperties();
     }
 
@@ -41,6 +52,17 @@ class TestListener implements \PHPUnit_Framework_TestListener
     {
         $property->setAccessible(true);
         $property->setValue($test, null);
+    }
+
+    private function registersShutdownFunction(\ReflectionObject $object)
+    {
+        $fp = fopen($object->getFilename(), 'rb');
+        while (!feof($fp)) {
+            if (false !== stripos(fread($fp, 4096), 'register_shutdown_function(')) {
+                return true;
+            }
+        }
+        fclose($fp);
     }
 
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
