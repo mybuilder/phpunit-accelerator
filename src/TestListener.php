@@ -11,7 +11,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
         $this->safelyFreeProperties($test);
     }
 
-    private function safelyFreeProperties($test)
+    private function safelyFreeProperties(\PHPUnit_Framework_Test $test)
     {
         foreach ($this->getProperties($test) as $property) {
             if ($this->isSafeToFreeProperty($property)) {
@@ -20,24 +20,24 @@ class TestListener implements \PHPUnit_Framework_TestListener
         }
     }
 
-    private function getProperties($test)
+    private function getProperties(\PHPUnit_Framework_Test $test)
     {
         $reflection = new \ReflectionObject($test);
 
         return $reflection->getProperties();
     }
 
-    private function isSafeToFreeProperty($property)
+    private function isSafeToFreeProperty(\ReflectionProperty $property)
     {
         return !$property->isStatic() && $this->isNotPhpUnitProperty($property);
     }
 
-    private function isNotPhpUnitProperty($property)
+    private function isNotPhpUnitProperty(\ReflectionProperty $property)
     {
         return 0 !== strpos($property->getDeclaringClass()->getName(), self::PHPUNIT_PROPERTY_PREFIX);
     }
 
-    private function freeProperty($test, $property)
+    private function freeProperty(\PHPUnit_Framework_Test $test, \ReflectionProperty $property)
     {
         $property->setAccessible(true);
         $property->setValue($test, null);
