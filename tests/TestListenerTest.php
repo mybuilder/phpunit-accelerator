@@ -1,25 +1,34 @@
 <?php
 
 use MyBuilder\PhpunitAccelerator\TestListener;
+use MyBuilder\PhpunitAccelerator\IgnoreTestPolicy;
 
 class TestListenerTest extends \PHPUnit_Framework_TestCase
 {
-    private $listener;
     private $dummyTest;
 
     protected function setUp()
     {
-        $this->listener = new TestListener();
         $this->dummyTest = new DummyTest();
     }
 
     /**
      * @test
      */
-    public function shouldFreeProperty()
+    public function shouldFreeTestProperty()
     {
-        $this->endTest();
+        $this->endTest(new TestListener());
 
+        $this->assertFreesTestProperty();
+    }
+
+    private function endTest(TestListener $listener)
+    {
+        $listener->endTest($this->dummyTest, 0);
+    }
+
+    private function assertFreesTestProperty()
+    {
         $this->assertNull($this->dummyTest->property);
     }
 
@@ -28,14 +37,29 @@ class TestListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldNotFreePhpUnitProperty()
     {
-        $this->endTest();
+        $this->endTest(new TestListener());
 
+        $this->assertDoesNotFreePHPUnitProperty();
+    }
+
+    private function assertDoesNotFreePHPUnitProperty()
+    {
         $this->assertNotNull($this->dummyTest->phpUnitProperty);
     }
 
-    private function endTest()
+    /**
+     * @test
+     */
+    public function shouldNotFreeTestPropertyWithIgnoreAlwaysPolicy()
     {
-        $this->listener->endTest($this->dummyTest, 0);
+        $this->endTest(new TestListener(new AlwaysIgnoreTestPolicy()));
+
+        $this->assertDoesNotFreeTestProperty();
+    }
+
+    private function assertDoesNotFreeTestProperty()
+    {
+        $this->assertNotNull($this->dummyTest->property);
     }
 }
 
@@ -47,4 +71,12 @@ class PHPUnit_Fake extends \PHPUnit_Framework_TestCase
 class DummyTest extends \PHPUnit_Fake
 {
     public $property = 1;
+}
+
+class AlwaysIgnoreTestPolicy implements IgnoreTestPolicy
+{
+    public function shouldIgnore(\ReflectionObject $testReflection)
+    {
+        return true;
+    }
 }
