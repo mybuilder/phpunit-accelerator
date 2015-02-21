@@ -9,7 +9,7 @@ Inspired by [Kris Wallsmith faster PHPUnit article](http://kriswallsmith.net/pos
 To install this library, run the command below and you will get the latest version
 
 ``` bash
-composer require mybuilder/phpunit-accelerator
+composer require mybuilder/phpunit-accelerator --dev
 ```
 
 ## Usage
