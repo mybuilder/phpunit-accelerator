@@ -55,3 +55,7 @@ And pass it to the constructor of our test listener in `phpunit.xml` configurati
     </listeners>
 </phpunit>
 ```
+
+---
+
+Created by [MyBuilder](http://www.mybuilder.com/) - Check out our [blog](http://tech.mybuilder.com/) for more insight into this and other open-source projects we release.
