@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="Phpunit Accelerator Test Suite">
-            <directory>./Tests</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 
