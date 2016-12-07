@@ -25,9 +25,9 @@ env:
 matrix:
   exclude:
     - php: 5.6
-      env: PHPUNIT=6.0.x-dev
+      env: PHPUNIT=^6.0
     - php: hhvm
-      env: PHPUNIT=6.0.x-dev
+      env: PHPUNIT=^6.0
 
 cache:
   directories:
