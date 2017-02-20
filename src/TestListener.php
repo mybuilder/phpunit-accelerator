@@ -2,7 +2,12 @@
 
 namespace MyBuilder\PhpunitAccelerator;
 
-class TestListener implements \PHPUnit_Framework_TestListener
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\Warning;
+
+class TestListener implements \PHPUnit\Framework\TestListener
 {
     private $ignorePolicy;
 
@@ -13,7 +18,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
         $this->ignorePolicy = ($ignorePolicy) ?: new NeverIgnoreTestPolicy();
     }
 
-    public function endTest(\PHPUnit_Framework_Test $test, $time)
+    public function endTest(Test $test, $time)
     {
         $testReflection = new \ReflectionObject($test);
 
@@ -24,7 +29,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
         $this->safelyFreeProperties($test, $testReflection->getProperties());
     }
 
-    private function safelyFreeProperties(\PHPUnit_Framework_Test $test, array $properties)
+    private function safelyFreeProperties(Test $test, array $properties)
     {
         foreach ($properties as $property) {
             if ($this->isSafeToFreeProperty($property)) {
@@ -43,29 +48,29 @@ class TestListener implements \PHPUnit_Framework_TestListener
         return 0 !== strpos($property->getDeclaringClass()->getName(), self::PHPUNIT_PROPERTY_PREFIX);
     }
 
-    private function freeProperty(\PHPUnit_Framework_Test $test, \ReflectionProperty $property)
+    private function freeProperty(Test $test, \ReflectionProperty $property)
     {
         $property->setAccessible(true);
         $property->setValue($test, null);
     }
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
+    public function startTestSuite(TestSuite $suite) {}
 
-    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
+    public function addError(Test $test, \Exception $e, $time) {}
 
-    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time) {}
+    public function addFailure(Test $test, AssertionFailedError $e, $time) {}
 
-    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
+    public function addIncompleteTest(Test $test, \Exception $e, $time) {}
 
-    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
+    public function addSkippedTest(Test $test, \Exception $e, $time) {}
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
+    public function endTestSuite(TestSuite $suite) {}
 
-    public function startTest(\PHPUnit_Framework_Test $test) {}
+    public function startTest(Test $test) {}
 
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
+    public function addRiskyTest(Test $test, \Exception $e, $time) {}
     
-    public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time) {}
+    public function addWarning(Test $test, Warning $e, $time) {}
 }
 
 class NeverIgnoreTestPolicy implements IgnoreTestPolicy
