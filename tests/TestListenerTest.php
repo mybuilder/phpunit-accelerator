@@ -2,8 +2,9 @@
 
 use MyBuilder\PhpunitAccelerator\TestListener;
 use MyBuilder\PhpunitAccelerator\IgnoreTestPolicy;
+use PHPUnit\Framework\TestCase;
 
-class TestListenerTest extends \PHPUnit_Framework_TestCase
+class TestListenerTest extends TestCase
 {
     private $dummyTest;
 
@@ -63,7 +64,7 @@ class TestListenerTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class PHPUnit_Fake extends \PHPUnit_Framework_TestCase
+class PHPUnit_Fake extends TestCase
 {
     public $phpUnitProperty = 1;
 }
