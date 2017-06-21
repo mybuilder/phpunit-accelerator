@@ -25,4 +25,5 @@ matrix:
       - php: nightly
         env: PHPUNIT=~6
       - php: hhvm
+        dist: trusty
         env: PHPUNIT=~5.7
