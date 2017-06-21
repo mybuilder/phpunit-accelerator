@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": ">=5.6",
-        "phpunit/phpunit": ">=4.7"
+        "phpunit/phpunit": ">=5.7 <7"
     },
     "autoload": {
         "psr-4": { "MyBuilder\\PhpunitAccelerator\\": "src" }

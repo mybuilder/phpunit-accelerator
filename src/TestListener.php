@@ -2,7 +2,13 @@
 
 namespace MyBuilder\PhpunitAccelerator;
 
-class TestListener implements \PHPUnit_Framework_TestListener
+use PHPUnit\Framework\BaseTestListener;
+
+if (!interface_exists('\PHPUnit\Framework\Test')) {
+    class_alias('\PHPUnit_Framework_Test', '\PHPUnit\Framework\Test');
+}
+
+class TestListener extends BaseTestListener
 {
     private $ignorePolicy;
 
@@ -13,7 +19,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
         $this->ignorePolicy = ($ignorePolicy) ?: new NeverIgnoreTestPolicy();
     }
 
-    public function endTest(\PHPUnit_Framework_Test $test, $time)
+    public function endTest(\PHPUnit\Framework\Test $test, $time)
     {
         $testReflection = new \ReflectionObject($test);
 
@@ -24,7 +30,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
         $this->safelyFreeProperties($test, $testReflection->getProperties());
     }
 
-    private function safelyFreeProperties(\PHPUnit_Framework_Test $test, array $properties)
+    private function safelyFreeProperties(\PHPUnit\Framework\Test $test, array $properties)
     {
         foreach ($properties as $property) {
             if ($this->isSafeToFreeProperty($property)) {
@@ -43,29 +49,11 @@ class TestListener implements \PHPUnit_Framework_TestListener
         return 0 !== strpos($property->getDeclaringClass()->getName(), self::PHPUNIT_PROPERTY_PREFIX);
     }
 
-    private function freeProperty(\PHPUnit_Framework_Test $test, \ReflectionProperty $property)
+    private function freeProperty(\PHPUnit\Framework\Test $test, \ReflectionProperty $property)
     {
         $property->setAccessible(true);
         $property->setValue($test, null);
     }
-
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
-
-    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
-
-    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time) {}
-
-    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
-
-    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
-
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
-
-    public function startTest(\PHPUnit_Framework_Test $test) {}
-
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
-    
-    public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time) {}
 }
 
 class NeverIgnoreTestPolicy implements IgnoreTestPolicy
