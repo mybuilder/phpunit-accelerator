@@ -2,19 +2,6 @@ language: php
 
 sudo: false
 
-php:
-  - 5.6
-  - 7.0
-  - 7.1
-  - nightly
-  - hhvm
-
-env:
-  - PHPUNIT=5.7.*
-  - PHPUNIT=6.0.*
-  - PHPUNIT=6.1.*
-  - PHPUNIT=6.2.*
-
 cache:
   directories:
     - $HOME/.composer
@@ -26,3 +13,26 @@ before_script:
 
 script:
   - ./bin/phpunit
+
+matrix:
+  include:
+    php:
+      - 5.6
+      env:
+        - PHPUNIT=~5.7
+      - 7.0
+      env:
+        - PHPUNIT=~5.7
+        - PHPUNIT=~6
+      - 7.1
+      env:
+        - PHPUNIT=~5.7
+        - PHPUNIT=~6
+      - nightly
+      env:
+        - PHPUNIT=~5.7
+        - PHPUNIT=~6
+      - hhvm
+      env:
+        - PHPUNIT=~5.7
+        - PHPUNIT=~6
