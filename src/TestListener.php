@@ -4,7 +4,7 @@ namespace MyBuilder\PhpunitAccelerator;
 
 use PHPUnit\Framework\BaseTestListener;
 
-if (!interface_exists('\PHPUnit\Framework\Test')) {
+if(interface_exists('\PHPUnit_Framework_Test')) {
     class_alias('\PHPUnit_Framework_Test', '\PHPUnit\Framework\Test');
 }
 

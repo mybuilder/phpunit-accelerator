@@ -12,10 +12,12 @@ class TestListenerTest extends \PHPUnit\Framework\TestCase
         $this->dummyTest = new DummyTest();
     }
 
-    /**
-     * @test
-     */
-    public function shouldFreeTestProperty()
+    protected function tearDown()
+    {
+        unset($this->dummyTest);
+    }
+
+    public function testShouldFreeTestProperty()
     {
         $this->endTest(new TestListener());
 
@@ -32,10 +34,7 @@ class TestListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->dummyTest->property);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotFreePhpUnitProperty()
+    public function testShouldNotFreePhpUnitProperty()
     {
         $this->endTest(new TestListener());
 
@@ -47,10 +46,7 @@ class TestListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($this->dummyTest->phpUnitProperty);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotFreeTestPropertyWithIgnoreAlwaysPolicy()
+    public function testShouldNotFreeTestPropertyWithIgnoreAlwaysPolicy()
     {
         $this->endTest(new TestListener(new AlwaysIgnoreTestPolicy()));
 
