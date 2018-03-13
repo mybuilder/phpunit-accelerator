@@ -2,14 +2,13 @@
 
 namespace MyBuilder\PhpunitAccelerator;
 
-use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestListener as BaseTestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 
-if (!interface_exists('\PHPUnit\Framework\Test')) {
-    class_alias('\PHPUnit_Framework_Test', '\PHPUnit\Framework\Test');
-}
-
-class TestListener extends BaseTestListener
+class TestListener implements BaseTestListener
 {
+    use TestListenerDefaultImplementation;
+
     private $ignorePolicy;
 
     const PHPUNIT_PROPERTY_PREFIX = 'PHPUnit_';
@@ -19,7 +18,7 @@ class TestListener extends BaseTestListener
         $this->ignorePolicy = ($ignorePolicy) ?: new NeverIgnoreTestPolicy();
     }
 
-    public function endTest(\PHPUnit\Framework\Test $test, $time)
+    public function endTest(\PHPUnit\Framework\Test $test, float $time): void
     {
         $testReflection = new \ReflectionObject($test);
 
