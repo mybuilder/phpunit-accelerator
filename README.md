@@ -8,7 +8,7 @@ Inspired by [Kris Wallsmith faster PHPUnit article](http://kriswallsmith.net/pos
 
 To install this library, run the command below and you will get the latest version
 
-``` bash
+```bash
 composer require mybuilder/phpunit-accelerator --dev
 ```
 
@@ -36,8 +36,8 @@ As an example, if we hypothetically wanted to ignore all tests which include "Le
 use MyBuilder\PhpunitAccelerator\IgnoreTestPolicy;
 
 class IgnoreLegacyTestPolicy implements IgnoreTestPolicy {
-    public function shouldIgnore(\ReflectionObject $testReflection) {
-        return strpos($testReflection->getFilename(), 'Legacy') !== false;
+    public function shouldIgnore(\ReflectionObject $testReflection): bool {
+        return strpos($testReflection->getFileName(), 'Legacy') !== false;
     }
 }
 ```
@@ -58,4 +58,5 @@ And pass it to the constructor of our test listener in `phpunit.xml` configurati
 
 ---
 
-Created by [MyBuilder](http://www.mybuilder.com/) - Check out our [blog](http://tech.mybuilder.com/) for more insight into this and other open-source projects we release.
+Created by [MyBuilder](https://www.mybuilder.com/) - Check out our [blog](https://tech.mybuilder.com/) for more insight into this and other open-source projects we release. 
+We are always looking to hire good people for our London office.
