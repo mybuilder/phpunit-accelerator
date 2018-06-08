@@ -4,6 +4,7 @@ namespace MyBuilder\PhpunitAccelerator;
 
 use PHPUnit\Framework\TestListener as BaseTestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\Test;
 
 class TestListener implements BaseTestListener
 {
@@ -11,14 +12,14 @@ class TestListener implements BaseTestListener
 
     private $ignorePolicy;
 
-    const PHPUNIT_PROPERTY_PREFIX = 'PHPUnit_';
+    private const PHPUNIT_PROPERTY_PREFIX = 'PHPUnit_';
 
     public function __construct(IgnoreTestPolicy $ignorePolicy = null)
     {
-        $this->ignorePolicy = ($ignorePolicy) ?: new NeverIgnoreTestPolicy();
+        $this->ignorePolicy = $ignorePolicy ?: new NeverIgnoreTestPolicy();
     }
 
-    public function endTest(\PHPUnit\Framework\Test $test, float $time): void
+    public function endTest(Test $test, float $time): void
     {
         $testReflection = new \ReflectionObject($test);
 
@@ -29,7 +30,7 @@ class TestListener implements BaseTestListener
         $this->safelyFreeProperties($test, $testReflection->getProperties());
     }
 
-    private function safelyFreeProperties(\PHPUnit\Framework\Test $test, array $properties)
+    private function safelyFreeProperties(Test $test, array $properties)
     {
         foreach ($properties as $property) {
             if ($this->isSafeToFreeProperty($property)) {
@@ -48,7 +49,7 @@ class TestListener implements BaseTestListener
         return 0 !== strpos($property->getDeclaringClass()->getName(), self::PHPUNIT_PROPERTY_PREFIX);
     }
 
-    private function freeProperty(\PHPUnit\Framework\Test $test, \ReflectionProperty $property)
+    private function freeProperty(Test $test, \ReflectionProperty $property)
     {
         $property->setAccessible(true);
         $property->setValue($test, null);
@@ -57,7 +58,7 @@ class TestListener implements BaseTestListener
 
 class NeverIgnoreTestPolicy implements IgnoreTestPolicy
 {
-    public function shouldIgnore(\ReflectionObject $testReflection)
+    public function shouldIgnore(\ReflectionObject $testReflection): bool
     {
         return false;
     }

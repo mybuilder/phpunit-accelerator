@@ -4,8 +4,5 @@ namespace MyBuilder\PhpunitAccelerator;
 
 interface IgnoreTestPolicy
 {
-    /**
-     * @return boolean
-     */
-    public function shouldIgnore(\ReflectionObject $testReflection);
+    public function shouldIgnore(\ReflectionObject $testReflection):bool;
 }

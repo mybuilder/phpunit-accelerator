@@ -5,6 +5,7 @@ use MyBuilder\PhpunitAccelerator\IgnoreTestPolicy;
 
 class TestListenerTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var DummyTest */
     private $dummyTest;
 
     protected function setUp()
@@ -12,52 +13,43 @@ class TestListenerTest extends \PHPUnit\Framework\TestCase
         $this->dummyTest = new DummyTest();
     }
 
-    /**
-     * @test
-     */
-    public function shouldFreeTestProperty()
+    public function testShouldFreeTestProperty():void
     {
         $this->endTest(new TestListener());
 
         $this->assertFreesTestProperty();
     }
 
-    private function endTest(TestListener $listener)
+    private function endTest(TestListener $listener):void
     {
         $listener->endTest($this->dummyTest, 0);
     }
 
-    private function assertFreesTestProperty()
+    private function assertFreesTestProperty():void
     {
         $this->assertNull($this->dummyTest->property);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotFreePhpUnitProperty()
+    public function testShouldNotFreePhpUnitProperty():void
     {
         $this->endTest(new TestListener());
 
         $this->assertDoesNotFreePHPUnitProperty();
     }
 
-    private function assertDoesNotFreePHPUnitProperty()
+    private function assertDoesNotFreePHPUnitProperty():void
     {
         $this->assertNotNull($this->dummyTest->phpUnitProperty);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotFreeTestPropertyWithIgnoreAlwaysPolicy()
+    public function testShouldNotFreeTestPropertyWithIgnoreAlwaysPolicy(): void
     {
         $this->endTest(new TestListener(new AlwaysIgnoreTestPolicy()));
 
         $this->assertDoesNotFreeTestProperty();
     }
 
-    private function assertDoesNotFreeTestProperty()
+    private function assertDoesNotFreeTestProperty():void
     {
         $this->assertNotNull($this->dummyTest->property);
     }
@@ -75,7 +67,7 @@ class DummyTest extends \PHPUnit_Fake
 
 class AlwaysIgnoreTestPolicy implements IgnoreTestPolicy
 {
-    public function shouldIgnore(\ReflectionObject $testReflection)
+    public function shouldIgnore(\ReflectionObject $testReflection): bool
     {
         return true;
     }
