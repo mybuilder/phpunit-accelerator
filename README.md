@@ -2,7 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/mybuilder/phpunit-accelerator.svg?branch=master)](http://travis-ci.org/mybuilder/phpunit-accelerator)
 
-Inspired by [Kris Wallsmith faster PHPUnit article](http://kriswallsmith.net/post/18029585104/faster-phpunit), we've created a [PHPUnit](http://phpunit.de) test listener that speeds up PHPUnit tests about 20% by freeing memory.
+*Depreciation * 
+Our latest benchmarking shows that there is now little improvement with PHPUnit Accelerator. 
+PHPUnit itself has made changes which do a lot of this now. Our plan is not to update this going forward unless we can find other areas we can speed up.
 
 ## Installation
 
@@ -55,6 +57,8 @@ And pass it to the constructor of our test listener in `phpunit.xml` configurati
     </listeners>
 </phpunit>
 ```
+
+Inspired by [Kris Wallsmith faster PHPUnit article](http://kriswallsmith.net/post/18029585104/faster-phpunit), we've created a [PHPUnit](http://phpunit.de) test listener that speeds up PHPUnit tests about 20% by freeing memory.
 
 ---
 
